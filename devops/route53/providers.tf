@@ -8,7 +8,7 @@ terraform {
     organization = "blondinkaksu"
 
     workspaces {
-      name = "prod"
+      name = "devops-route53_blondinkaksu_com"
     }
   }
 }
