@@ -26,18 +26,10 @@ resource "aws_route53_record" "www_blondinkaksu_com" {
   ttl = 300
 }
 
-resource "aws_route53_record" "yandex_verification" {
+resource "aws_route53_record" "verification" {
   name = "blondinkaksu.com"
   type = "TXT"
   zone_id = aws_route53_zone.main.id
-  records = ["yandex_verification: d5dce2cbf73770a8"]
-  ttl = 300
-}
-
-resource "aws_route53_record" "google_verification" {
-  name = "blondinkaksu.com"
-  type = "TXT"
-  zone_id = aws_route53_zone.main.id
-  records = ["google-site-verification=rp4iN6QlVU7kLjsVpCzuR4pPq2b-m9lZiTqzAx21DSI"]
+  records = ["google-site-verification=rp4iN6QlVU7kLjsVpCzuR4pPq2b-m9lZiTqzAx21DSI yandex_verification: d5dce2cbf73770a8"]
   ttl = 300
 }
