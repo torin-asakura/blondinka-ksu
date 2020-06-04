@@ -1,0 +1,19 @@
+{
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "commit": "mctl commit"
+  },
+  "devDependencies": {
+    "@monstrs/mctl": "0.1.82",
+    "lerna": "3.22.0"
+  },
+  "workspaces": [
+    "devops/**/*"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "mctl commitmsg"
+    }
+  }
+}
