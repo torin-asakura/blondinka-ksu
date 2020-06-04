@@ -30,6 +30,6 @@ resource "aws_route53_record" "yandex_verification" {
   name = "blondinkaksu.com"
   type = "TXT"
   zone_id = aws_route53_zone.main.id
-  records = ["d5dce2cbf73770a8"]
+  records = ["yandex_verification: d5dce2cbf73770a8"]
   ttl = 300
 }
