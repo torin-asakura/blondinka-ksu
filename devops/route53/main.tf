@@ -32,7 +32,7 @@ resource "aws_route53_record" "verification" {
   zone_id = aws_route53_zone.main.id
   records = [
     "google-site-verification=rp4iN6QlVU7kLjsVpCzuR4pPq2b-m9lZiTqzAx21DSI",
-    "yandex_verification: d5dce2cbf73770a8"
+    "yandex-verification: d5dce2cbf73770a8"
     ]
   ttl = 300
 }
