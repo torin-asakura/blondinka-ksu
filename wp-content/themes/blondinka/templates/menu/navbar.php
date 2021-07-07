@@ -22,13 +22,15 @@ foreach (array_values($items) as $i => $item) {
 
     // Icon
     $icon = $config('~menuitem.icon');
-    $icon_attrs['class'][] = $item->menu_image_css;
-    if (preg_match('/\.(gif|png|jpg|svg)$/i', $icon)) {
-        $icon_attrs['class'][] = 'uk-margin-small-right';
-        $icon = "<img {$this->attrs($icon_attrs)} src=\"{$icon}\" alt=\"{$item->title}\">";
+    $icon_attrs['class'] = [
+        $item->menu_image_css,
+        'uk-margin-small-right' => !$config('~menuitem.icon-only'),
+    ];
+
+    if ($view->isImage($icon)) {
+        $icon = $view->image($icon, $icon_attrs + ['alt' => $item->title, 'uk-svg' => $view->isImage($icon) == 'svg']);
     } elseif ($icon) {
-        $icon_attrs['class'][] = 'uk-margin-small-right';
-        $icon = "<span {$this->attrs($icon_attrs)} uk-icon=\"icon: {$icon}\"></span>";
+        $icon = "<span {$this->attrs($icon_attrs)} uk-icon=\"{$icon}\"></span>";
     }
 
     // Show Icon only
@@ -37,7 +39,7 @@ foreach (array_values($items) as $i => $item) {
     }
 
     // Header
-    if ($item->type === 'header' || ($item->type === 'custom' && $item->url === '#')) {
+    if ($isHeader = $item->type === 'header' || ($item->type === 'custom' && $item->url === '#')) {
 
         if (!$children && $level == 1) {
             continue;
@@ -49,12 +51,12 @@ foreach (array_values($items) as $i => $item) {
             $title = '';
             $attrs['class'][] = 'uk-nav-divider';
         } elseif ($children) {
-            $title = "<a class=\"{$item->class}\" href>{$title}</a>";
+            $title = "<a class=\"{$item->class}\">{$title}</a>";
         } else {
             $attrs['class'][] = 'uk-nav-header';
         }
 
-        // Link
+    // Link
     } else {
 
         $link = [];
@@ -97,9 +99,9 @@ foreach (array_values($items) as $i => $item) {
 
             $children['class'][] = 'uk-navbar-dropdown';
 
-            $click = ($item->type === 'header' || $item->type === 'custom' && $item->url === '#') && $mode = $config('~navbar.dropdown_click');
+            $mode = $isHeader ? ($config('~navbar.dropdown_click') ? 'click' : 'hover') : false;
 
-            if ($justify = $config('~menuitem.justify') or $click) {
+            if ($justify = $config('~menuitem.justify') or $mode) {
 
                 $boundary = $justify || $config('~navbar.dropbar') && $config('~navbar.dropdown_boundary');
 
@@ -109,7 +111,7 @@ foreach (array_values($items) as $i => $item) {
                     'pos' => $justify ? 'bottom-justify' : "bottom-{$config('~navbar.dropdown_align')}",
                     'boundary' => $boundary ? '!.uk-navbar-container' : false,
                     'boundaryAlign' => $boundary,
-                    'mode' => $click ? 'click' : 'click,hover',
+                    'mode' => $mode,
                 ]));
             }
 
